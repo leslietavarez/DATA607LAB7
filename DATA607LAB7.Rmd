@@ -1,0 +1,202 @@
+---
+title: "DATA607LAB7"
+author: "Leslie Tavarez"
+date: "2024-10-20"
+output:
+  html_document:
+    df_print: paged
+---
+##### JSON Format: 
+Pros:
+- Readable and easy to understand.
+- Widely supported in programming languages.
+- Lightweight compared to XML.
+
+
+Cons:
+- Does not support comments.
+- Less efficient for very large datasets than binary formats.
+
+
+```{r}
+library(jsonlite)
+
+# Create the data frame
+data <- data.frame(
+  Category = c("Electronics", "Electronics", "Home Appliances", "Home Appliances", 
+               "Clothing", "Clothing", "Clothing", "Clothing", "Books", "Books", 
+               "Books", "Books", "Sports Equipment", "Sports Equipment"),
+  ItemName = c("Smartphone", "Smartphone", "Refrigerator", "Washing Machine", 
+               "T-Shirt", "T-Shirt", "T-Shirt", "Jeans", "Fiction Novel", 
+               "Fiction Novel", "Non-Fiction Guide", "Non-Fiction Guide", 
+               "Basketball", "Tennis Racket"),
+  ItemID = c(101, 101, 201, 202, 301, 301, 301, 302, 401, 401, 402, 402, 501, 502),
+  Brand = c("TechBrand", "TechBrand", "HomeCool", "CleanTech", "FashionCo", 
+            "FashionCo", "FashionCo", "DenimWorks", "-", "-", "-", "-", 
+            "SportsGear", "RacketPro"),
+  Price = c(699.99, 699.99, 899.99, 499.99, 19.99, 19.99, 19.99, 49.99, 
+            14.99, 14.99, 24.99, 24.99, 29.99, 89.99),
+  VariationID = c("101-A", "101-B", "201-A", "202-A", "301-A", 
+                  "301-B", "301-C", "302-A", "401-A", "401-B", 
+                  "402-A", "402-B", "501-A", "502-A"),
+  VariationDetails = c("Color: Black, Storage: 64GB", 
+                       "Color: White, Storage: 128GB", 
+                       "Color: Stainless Steel, Capacity: 20 cu ft", 
+                       "Type: Front Load, Capacity: 4.5 cu ft", 
+                       "Color: Blue, Size: S", 
+                       "Color: Red, Size: M", 
+                       "Color: Green, Size: L", 
+                       "Color: Dark Blue, Size: 32", 
+                       "Format: Hardcover, Language: English", 
+                       "Format: Paperback, Language: Spanish", 
+                       "Format: eBook, Language: English", 
+                       "Format: Paperback, Language: French", 
+                       "Size: Size 7, Color: Orange", 
+                       "Material: Graphite, Color: Black")
+)
+
+# Convert to JSON
+json_data <- toJSON(data, pretty = TRUE)
+
+# Print JSON data (optional)
+cat(json_data)
+
+# Write JSON to file
+write(json_data, "inventory.json")
+```
+
+##### HTML Format
+
+Pros of HTML
+- Readable: Easy to read and edit.
+- Web Compatibility: Works well on any web browser.
+- Clear Structure: Tables make data easy to understand.
+- Styling Options: Can be styled with CSS for better presentation.
+- Accessible: Viewable on various devices.
+Cons of HTML
+- Larger File Size: Can be bulkier than formats like JSON.
+- Limited for Processing: Not ideal for data analysis or manipulation.
+- Less Complex Structure: Can't handle hierarchical data as well as JSON or XML.
+- Static: Requires regeneration for dynamic updates.
+- Limited Tool Support: Many analysis tools don’t work directly with HTML.
+
+In summary, HTML is great for presentation but not optimal for data processing.
+
+```{r}
+library(knitr)
+# Write data to HTML
+html_data <- kable(data, format = "html", table.attr = "class='dataframe'")
+
+# Save to HTML file
+writeLines(html_data, "inventory.html")
+```
+
+##### XML Format
+
+Pros of XML:
+- Readable: Easy to read and understand.
+- Self-Describing: Tags provide context for the data.
+- Flexible: Can handle complex and nested data structures.
+- Cross-Platform: Widely supported across various languages and platforms.
+- Validatable: Can be validated against schemas for structure.
+Cons of XML
+- Verbose: Larger file sizes due to extensive tagging.
+- Complex Parsing: More complicated and resource-intensive to parse.
+- Performance: Slower read/write operations compared to lighter formats.
+- Text-Based: All data is treated as text, complicating data types.
+- Limited Structures: Doesn't natively support arrays or some modern data structures.
+
+XML is great for structured data but can be bulky and slow for large datasets. For some reason it also gave me the most trouble when trying to code.
+
+```{r}
+library(XML)
+
+data <- data.frame(
+  Category = c("Electronics", "Electronics", "Home Appliances", "Home Appliances", 
+               "Clothing", "Clothing", "Clothing", "Clothing", "Books", "Books", 
+               "Books", "Books", "Sports Equipment", "Sports Equipment"),
+  ItemName = c("Smartphone", "Smartphone", "Refrigerator", "Washing Machine", 
+               "T-Shirt", "T-Shirt", "T-Shirt", "Jeans", "Fiction Novel", 
+               "Fiction Novel", "Non-Fiction Guide", "Non-Fiction Guide", 
+               "Basketball", "Tennis Racket"),
+  ItemID = c(101, 101, 201, 202, 301, 301, 301, 302, 401, 401, 402, 402, 501, 502),
+  Brand = c("TechBrand", "TechBrand", "HomeCool", "CleanTech", "FashionCo", 
+            "FashionCo", "FashionCo", "DenimWorks", "-", "-", "-", "-", 
+            "SportsGear", "RacketPro"),
+  Price = c(699.99, 699.99, 899.99, 499.99, 19.99, 19.99, 19.99, 49.99, 
+            14.99, 14.99, 24.99, 24.99, 29.99, 89.99),
+  VariationID = c("101-A", "101-B", "201-A", "202-A", "301-A", 
+                  "301-B", "301-C", "302-A", "401-A", "401-B", 
+                  "402-A", "402-B", "501-A", "502-A"),
+  VariationDetails = c("Color: Black, Storage: 64GB", 
+                       "Color: White, Storage: 128GB", 
+                       "Color: Stainless Steel, Capacity: 20 cu ft", 
+                       "Type: Front Load, Capacity: 4.5 cu ft", 
+                       "Color: Blue, Size: S", 
+                       "Color: Red, Size: M", 
+                       "Color: Green, Size: L", 
+                       "Color: Dark Blue, Size: 32", 
+                       "Format: Hardcover, Language: English", 
+                       "Format: Paperback, Language: Spanish", 
+                       "Format: eBook, Language: English", 
+                       "Format: Paperback, Language: French", 
+                       "Size: Size 7, Color: Orange", 
+                       "Material: Graphite, Color: Black")
+)
+
+# Create XML document
+xml_data <- newXMLDoc()
+
+# Create root node
+root <- newXMLNode("Inventory", doc = xml_data)
+
+# Create XML nodes using lapply and store them in a list
+item_nodes <- lapply(1:nrow(data), function(i) {
+  newXMLNode("Item",
+             newXMLNode("Category", data$Category[i]),
+             newXMLNode("ItemName", data$ItemName[i]),
+             newXMLNode("ItemID", data$ItemID[i]),
+             newXMLNode("Brand", data$Brand[i]),
+             newXMLNode("Price", data$Price[i]),
+             newXMLNode("Variation",
+                        newXMLNode("VariationID", data$VariationID[i]),
+                        newXMLNode("VariationDetails", data$VariationDetails[i]))
+  )
+})
+
+# Append all item nodes to root
+addChildren(root, item_nodes)
+
+# Save XML to file
+saveXML(xml_data, file = "inventory.xml")
+```
+##### Parquet Format 
+
+Pros of Parquet: 
+- Efficient Storage: Only reads necessary columns, speeding up access.
+- Compression: Smaller file sizes due to built-in compression.
+- Flexible Schema: Easily add new columns without affecting existing data.
+- Great for Big Data: Works well with large datasets in tools like Spark and Hadoop.
+- Strong Data Types: Supports complex data structures.
+
+Cons of Parquet:
+- Not Easily Readable: Needs special tools to view or edit.
+- Overkill for Small Data: Better for large datasets; small ones don’t benefit much.
+- Difficult to Edit: Not as straightforward as text formats like JSON or CSV.
+- Compatibility Issues: Not supported by all tools, unlike CSV or JSON.
+```{r}
+library(arrow)
+
+# Write to Parquet file
+write_parquet(data, "inventory.parquet")
+```
+
+##### Conclusion: 
+
+HTML is a great format when displaying data online. XML is ideal for complex data structure that requires validation. JSON is best used for lightweight data interchange of web applications and APIs. Parquet should be used for large-scale data storage and analytics. All of these formats have drawbacks, we should choose format based on our needs. 
+
+##### Files Created
+- [Download inventory.json](inventory.json)
+- [Download inventory.xml](inventory.xml)
+- [Download inventory.parquet](inventory.parquet)
+- [View inventory.html](inventory.html)
